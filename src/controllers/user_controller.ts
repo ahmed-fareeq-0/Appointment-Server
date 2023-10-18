@@ -1,5 +1,5 @@
-import { Request, Response } from "express"
-import { s_user_login_doctor_patient, s_user_register_doctor, s_user_register_patient } from "../services/user_service"
+import { Request, Response } from "express";
+import { s_user_login, s_user_register_doctor, s_user_register_patient } from "../services/user_service"
 import { validationResult } from "express-validator";
 
 export const register_patient = async (req: Request, res: Response) => {
@@ -50,8 +50,9 @@ export const login_patient = async (req: Request, res: Response) => {
         })
 
     } else {
-        const result = await s_user_login_doctor_patient(req, res);
-        res.json(result);
+        const result = await s_user_login(req, res);
+        return res.json({ message: 'تم تسجل الدخول بنجاح', result });
     }
 
 }
+

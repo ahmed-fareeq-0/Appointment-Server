@@ -1,32 +1,25 @@
 import { createConnection } from "typeorm";
 import { PatientEntity, DoctorEntity } from "../entities/user_entity";
+import { AppointmentEntity } from "../entities/appointment_entity";
 
-export const db = createConnection({
-    type: "mysql",
-    host: 'localhost',
-    port: 3306,
-    username: 'root',
-    password: "",
-    database: 'medicare',
-    entities: [PatientEntity, DoctorEntity],
-    synchronize: true
-})
+const db = async () => {
+    try {
+        await createConnection({
+            type: "mysql",
+            host: 'localhost',
+            port: 3306,
+            username: 'root',
+            password: "",
+            database: 'medicare',
+            entities: [PatientEntity, DoctorEntity, AppointmentEntity],
+            synchronize: true
+        })
+        console.log("connected to mySql");
 
+    } catch (error) {
+        console.log(error);
+        throw new Error("unable to connect to mySql")
+    }
+}
 
-// import { createConnection } from "typeorm";
-// import { config as dotenvConfig } from 'dotenv';
-// import { User_entity } from "../entities/user_entity";
-
-// dotenvConfig();
-
-
-// export const db = createConnection({
-//     type: "mysql",
-//     host: process.env.DB_HOST,
-//     port: process.env.DB_PORT,
-//     username: process.env.DB_USER,
-//     password: process.env.DB_PASS,
-//     database: process.env.DB_NAME,
-//     entities: [User_entity],
-//     synchronize: true
-// })
+export default db
